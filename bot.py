@@ -7,6 +7,8 @@ load_dotenv()
 
 
 TOKEN = bot_creds.token
+bot_chan_id = 635202004058243117
+
 
 client = discord.Client()
 
@@ -14,15 +16,13 @@ client = discord.Client()
 async def on_message(message):
     if message.author == client.user:
         return
-    
-    bot_channel = message.channel
-    print(bot_channel)
-    to_user = message.author
-    print(to_user)
-    if(message.channel == bot_channel):
+    msg_chan_id = message.channel.id
+    bot_channel = message.guild.get_channel(bot_chan_id)
+    if(msg_chan_id == bot_chan_id):
+        ##simple response to user when they speak in whichever channel they speak
         at_user = message.author.mention
         await bot_channel.send(
-            f"Hello @{at_user} ."
+            f"Hello {at_user} this is my channel."
         )
 
 @client.event
