@@ -1,10 +1,14 @@
 import os
+import random
 import discord
 import bot_log
 import bot_creds
 import datetime
 from dotenv import load_dotenv
 load_dotenv()
+
+#TODO add oAuth to allow validation of multiple servers
+#make fn time_check to optimize
 
 TOKEN = bot_creds.token
 GUILD =""
@@ -68,6 +72,5 @@ async def on_ready():
                 print(f'''{user.name} has been playing {user.activity.name} for {hour} hour(s) {mins}
                 mins and {secs} secs.''')
                 if(hour>3):
-                    print(f"{user.name} has been gaming TOO LONG DRINK WATER")
-
+                    print(f"Hi {user.name}! "+random.choice(bot_creds.well)) ##TODO change this to user.message(content="")
 client.run(TOKEN)
