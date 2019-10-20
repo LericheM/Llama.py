@@ -40,7 +40,7 @@ async def on_message(message):
         )
 '''
 def hour_min_sec(secs):
-    #thank you evan!
+    #Quickly written with help from Evan Markowitz
     return(int(secs//3600),int((secs%3600) //60), int(secs % 60))
 
 @client.event
@@ -57,6 +57,8 @@ async def on_ready():
         if(guild.name == "Creative 747"):
             GUILD = guild
             break
+    user_3 = [] #list of users messaged at three hours
+    user_6 = []
     for user in GUILD.members:
         '''
         Check each user and check what type of activity they're doing, if it's a game
@@ -71,6 +73,10 @@ async def on_ready():
                 hour, mins, secs = hour_min_sec(delt.total_seconds())
                 print(f'''{user.name} has been playing {user.activity.name} for {hour} hour(s) {mins}
                 mins and {secs} secs.''')
-                if(hour>3):
+                if((hour>3 and hour<6) and user not in user_3):
                     print(f"Hi {user.name}! "+random.choice(bot_creds.well)) ##TODO change this to user.message(content="")
+                    user_3.append(user)
+                elif((hour>6) and user not in user_6):
+                    print(f"Hey {user.name}, consider taking a break! Get some fresh air :)")
+                    user_6.append(user)
 client.run(TOKEN)
