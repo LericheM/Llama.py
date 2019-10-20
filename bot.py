@@ -73,7 +73,13 @@ async def on_ready():
                 print(f'''{user.name} has been playing {user.activity.name} for {hour} hour(s) {mins}
                 mins and {secs} secs.''')
                 if((mins>=2 and hour<6) and user not in user_3):
-                    print(f"Hi {user.name}! "+random.choice(bot_creds.well)) ##TODO change this to user.message(content="")
+                    print(f"Hi {user.name}! "+random.choice(bot_creds.well)) ##TODO change this to user.send(content="")
+                    '''
+                    if(!user.dm_channel):
+                        await user.create_dm()
+                    await user.send(content = f"Hi {user.name}! "+random.choice(bot_creds.well))
+
+                    '''
                     user_3.append(user)
                 elif((hour>6) and user not in user_6):
                     print(f"Hey {user.name}, consider taking a break! Get some fresh air :)")
