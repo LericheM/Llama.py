@@ -2,13 +2,16 @@ import os
 import discord
 import bot_log
 import bot_creds
+import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = bot_creds.token
+GUILD =""
 bot_chan_id = bot_creds.bot_chan_id
 
 client = discord.Client()
+
 
 @client.event ##logging information pulled from realpython.com
 async def on_error(event, *args, **kwargs):
@@ -40,12 +43,23 @@ async def on_message(message):
             return
         if(("quit" in message.content or "bye" in message.content) and
         message.channel.name == "bot-test"):
-            exit()
-
+            exit()   
 
 @client.event
 async def on_ready():
     print(f"{client.user.name} has connected to discord!")
+    for guild in client.guilds:
+        if(guild.name == "Creative 747"):
+            GUILD = guild
+            break
+    for user in GUILD.members:
+        '''
+        Check each user and check what type of activity they're doing, if it's a game
+        we start our time mind
+        '''
+        if(user.activity):
+            if(user.activity.type.name == "playing"):
+                print(f"{user.name} is playing {user.activity.name}")
 
 
 client.run(TOKEN)
