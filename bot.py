@@ -35,15 +35,16 @@ async def on_message(message):
             f"Hello {at_user} this is my channel."
         )
 '''
+def hour_min_sec(secs):
+    #thank you evan!
+    return(int(secs//3600),int((secs%3600) //60), int(secs % 60))
 
 @client.event
 async def on_message(message):
     if(message.author.id == 78674342103224320):
-        if message.author == client.user:
-            return
         if(("quit" in message.content or "bye" in message.content) and
         message.channel.name == "bot-test"):
-            exit()   
+            await client.close()  
 
 @client.event
 async def on_ready():
@@ -59,7 +60,14 @@ async def on_ready():
         '''
         if(user.activity):
             if(user.activity.type.name == "playing"):
-                print(f"{user.name} is playing {user.activity.name}")
-
+                start_time = user.activity.timestamps["start"]/1000
+                start_time = datetime.datetime.fromtimestamp(start_time)
+                now = datetime.datetime.now()
+                delt = now - start_time #a time delta object (days,s,ms)
+                hour, mins, secs = hour_min_sec(delt.total_seconds())
+                print(f'''{user.name} has been playing {user.activity.name} for {hour} hour(s) {mins}
+                mins and {secs} secs.''')
+                if(hour>3):
+                    print(f"{user.name} has been gaming TOO LONG DRINK WATER")
 
 client.run(TOKEN)
