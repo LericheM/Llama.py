@@ -5,13 +5,20 @@ import bot_creds
 from dotenv import load_dotenv
 load_dotenv()
 
-
 TOKEN = bot_creds.token
-bot_chan_id = 635202004058243117
-
+bot_chan_id = bot_creds.bot_chan_id
 
 client = discord.Client()
 
+@client.event ##logging information pulled from realpython.com
+async def on_error(event, *args, **kwargs):
+    with open('err.log', 'a') as f:
+        if event == 'on_message':
+            f.write(f'Unhandled message: {args[0]}\n')
+        else:
+            raise
+'''
+orphaned code, used for testing purpouses
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -24,9 +31,21 @@ async def on_message(message):
         await bot_channel.send(
             f"Hello {at_user} this is my channel."
         )
+'''
+
+@client.event
+async def on_message(message):
+    if(message.author.id == 78674342103224320):
+        if message.author == client.user:
+            return
+        if(("quit" in message.content or "bye" in message.content) and
+        message.channel.name == "bot-test"):
+            exit()
+
 
 @client.event
 async def on_ready():
-    print(f"{client.user} has connected to discord!")
+    print(f"{client.user.name} has connected to discord!")
+
 
 client.run(TOKEN)
