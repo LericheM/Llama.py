@@ -66,17 +66,17 @@ async def on_ready():
         '''
         if(user.activity):
             if(user.activity.type.name == "playing"):
-                start_time = user.activity.timestamps["start"]/1000
-                start_time = datetime.datetime.fromtimestamp(start_time)
+                start_time = user.activity.start + datetime.timedelta(hours = -4)
                 now = datetime.datetime.now()
                 delt = now - start_time #a time delta object (days,s,ms)
                 hour, mins, secs = hour_min_sec(delt.total_seconds())
                 print(f'''{user.name} has been playing {user.activity.name} for {hour} hour(s) {mins}
                 mins and {secs} secs.''')
-                if((hour>3 and hour<6) and user not in user_3):
+                if((mins>=2 and hour<6) and user not in user_3):
                     print(f"Hi {user.name}! "+random.choice(bot_creds.well)) ##TODO change this to user.message(content="")
                     user_3.append(user)
                 elif((hour>6) and user not in user_6):
                     print(f"Hey {user.name}, consider taking a break! Get some fresh air :)")
                     user_6.append(user)
 client.run(TOKEN)
+
